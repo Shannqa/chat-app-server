@@ -23,15 +23,10 @@ app.set("port", port);
  * Create HTTP server.
  */
 
-const client =
-  process.env.NODE_ENV === "development"
-    ? process.env.FRONT_DEV
-    : process.env.FRONT;
-
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: client,
+    origin: "https://chat-shannqa.netlify.app",
     credentials: true,
   },
 });

@@ -30,14 +30,9 @@ app.use(helmet());
 app.use(limiter);
 connectDB();
 
-const client =
-  process.env.NODE_ENV === "development"
-    ? process.env.FRONT_DEV
-    : process.env.FRONT;
-
 app.use(
   cors({
-    origin: client,
+    origin: "https://chat-shannqa.netlify.app",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
