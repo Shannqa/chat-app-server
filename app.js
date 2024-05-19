@@ -30,9 +30,14 @@ app.use(helmet());
 app.use(limiter);
 connectDB();
 
+let frontend = "https://chat-shannqa.netlify.app";
+if (process.env.NODE_ENV === "development") {
+  frontend = "http://localhost:5173";
+}
+
 app.use(
   cors({
-    origin: "https://chat-shannqa.netlify.app",
+    origin: frontend,
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })

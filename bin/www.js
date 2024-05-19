@@ -23,10 +23,15 @@ app.set("port", port);
  * Create HTTP server.
  */
 
+let frontend = "https://chat-shannqa.netlify.app";
+if (process.env.NODE_ENV === "development") {
+  frontend = "http://localhost:5173";
+}
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-shannqa.netlify.app",
+    origin: frontend,
     credentials: true,
   },
 });
@@ -93,6 +98,16 @@ io.on("connection", (socket) => {
     name: "Server",
     text: `User connected: ${socket.username}`,
     users: users,
+  });
+
+  socket.on("refresh", ({ socketId }) => {
+    const cleanId = sanitizeHtml(socketId);
+
+    io.to(socket.id).emit("refreshResponse", {
+      name: "Server",
+      text: `User connected: ${socket.username}`,
+      users: users,
+    });
   });
 
   // message to "All" room
